@@ -25,7 +25,7 @@ export function Hero() {
           </button>
         </header>
 
-        <div className="mt-8 flex flex-col gap-5 px-6">
+        <div className="mt-12 flex flex-col gap-5 px-6">
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-gold-500 bg-white/[0.08] px-3.5 py-2">
             <span className="size-1.5 rounded-full bg-gold-500" aria-hidden />
             <span className="text-[10px] font-semibold tracking-[0.12em] text-white">
@@ -65,7 +65,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-navy-700 p-6">
+        <div className="mt-20 flex flex-col gap-4 border-t border-navy-700 p-6">
           <span className="text-[10px] font-semibold tracking-[0.12em] text-gold-500">
             CREDENCIAIS
           </span>
