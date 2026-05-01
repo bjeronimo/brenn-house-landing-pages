@@ -179,3 +179,110 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Typography — Inter, mobile-first, desktop overrides at >= 768px.
+   Sizes/line-height/letter-spacing match the Figma design system. */
+
+@utility text-display-l {
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    @media (min-width: 768px) {
+        font-size: 96px;
+        letter-spacing: -0.03em;
+    }
+}
+
+@utility text-display-m {
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    @media (min-width: 768px) {
+        font-size: 76px;
+        letter-spacing: -0.03em;
+    }
+}
+
+@utility text-h1 {
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    @media (min-width: 768px) {
+        font-size: 56px;
+        line-height: 1.05;
+    }
+}
+
+@utility text-h2 {
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    @media (min-width: 768px) {
+        font-size: 40px;
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+    }
+}
+
+@utility text-h3 {
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    @media (min-width: 768px) {
+        font-size: 28px;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+    }
+}
+
+@utility text-h4 {
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    @media (min-width: 768px) {
+        font-size: 22px;
+        letter-spacing: -0.005em;
+    }
+}
+
+@utility text-body-l {
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: 0;
+    @media (min-width: 768px) {
+        font-size: 18px;
+    }
+}
+
+@utility text-body-m {
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: 0;
+    @media (min-width: 768px) {
+        font-size: 16px;
+    }
+}
+
+@utility text-body-s {
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    @media (min-width: 768px) {
+        font-size: 14px;
+    }
+}
+
+@utility text-caption {
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 0;
+}
+
+@utility text-label {
+    font-size: 11px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    @media (min-width: 768px) {
+        letter-spacing: 0.12em;
+    }
+}
