@@ -2,7 +2,7 @@ import { Button } from "@workspace/ui/components/button"
 
 export function Hero() {
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-navy-900 via-navy-900 via-[60%] to-navy-700">
+    <section className="relative flex min-h-screen w-full flex-col overflow-hidden bg-gradient-to-b from-navy-900 via-navy-900 via-[60%] to-navy-700">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-[120px] left-[80px] size-[450px] rounded-full bg-[radial-gradient(circle,rgba(201,165,124,0.2),transparent_70%)] blur-3xl"
