@@ -65,7 +65,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-navy-700 p-6">
+        <div className="mt-auto flex flex-col gap-4 border-t border-navy-700 p-6 pt-10">
           <span className="text-[10px] font-semibold tracking-[0.12em] text-gold-500">
             CREDENCIAIS
           </span>
