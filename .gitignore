@@ -34,3 +34,13 @@ npm-debug.log*
 # Misc
 .DS_Store
 *.pem
+
+# IDE
+.idea
+
+# Storybook
+*storybook.log
+storybook-static
+
+# Claude Code local settings
+.claude/settings.local.json
