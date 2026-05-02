@@ -172,6 +172,7 @@ function LeadForm({
           type="number"
           placeholder="120"
           inputMode="numeric"
+          className="flex-1"
         />
       </div>
 
@@ -215,6 +216,7 @@ type FieldProps = {
   type?: string
   autoComplete?: string
   inputMode?: "text" | "numeric" | "tel" | "email"
+  className?: string
 }
 
 function Field({
@@ -224,10 +226,13 @@ function Field({
   type = "text",
   autoComplete,
   inputMode,
+  className,
 }: FieldProps) {
   const id = `lead-${name}`
   return (
-    <div className="flex flex-col gap-1 rounded-[10px] border border-cream-300 px-4 py-3 focus-within:border-gold-500">
+    <div
+      className={`flex min-w-0 flex-col gap-1 rounded-[10px] border border-cream-300 px-4 py-3 focus-within:border-gold-500 ${className ?? ""}`}
+    >
       <label
         htmlFor={id}
         className="text-[10px] font-semibold tracking-[0.12em] text-gold-700"
@@ -241,7 +246,7 @@ function Field({
         placeholder={placeholder}
         autoComplete={autoComplete}
         inputMode={inputMode}
-        className="bg-transparent text-[15px] font-medium text-navy-900 placeholder:font-normal placeholder:text-neutral-500 focus:outline-none"
+        className="w-full bg-transparent text-[15px] font-medium text-navy-900 placeholder:font-normal placeholder:text-neutral-500 focus:outline-none"
       />
     </div>
   )
