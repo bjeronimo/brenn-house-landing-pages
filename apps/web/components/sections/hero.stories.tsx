@@ -15,4 +15,10 @@ export default meta
 
 type Story = StoryObj<typeof Hero>
 
-export const Default: Story = {}
+export const Mobile: Story = {}
+
+export const Desktop: Story = {
+  parameters: {
+    viewport: { defaultViewport: "reset" },
+  },
+}
