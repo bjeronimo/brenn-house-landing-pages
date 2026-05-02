@@ -113,7 +113,7 @@ export function MortgageCalculator() {
       <div className="mx-auto hidden w-full max-w-[1440px] flex-col gap-14 px-20 py-30 lg:flex">
         <Header />
         <div className="flex items-start gap-8">
-          <div className="flex w-[608px] shrink-0 rounded-[20px] border border-cream-300 bg-cream-100 p-10">
+          <div className="flex min-w-0 flex-1 rounded-[20px] border border-cream-300 bg-cream-100 p-10">
             {sliders}
           </div>
           <Output
@@ -242,7 +242,7 @@ function Output({
       className={
         compact
           ? "flex flex-col gap-4 rounded-2xl bg-navy-700 px-6 py-8"
-          : "relative flex w-[640px] shrink-0 flex-col gap-7 overflow-hidden rounded-[20px] bg-navy-700 p-12"
+          : "relative flex min-w-0 flex-1 flex-col gap-7 overflow-hidden rounded-[20px] bg-navy-700 p-12"
       }
     >
       {!compact && (
@@ -268,7 +268,7 @@ function Output({
           className={
             compact
               ? "text-[56px] leading-none font-semibold tracking-[-0.03em] text-white"
-              : "text-[96px] leading-none font-semibold tracking-[-0.04em] text-white"
+              : "text-[clamp(64px,7vw,96px)] leading-none font-semibold tracking-[-0.04em] text-white"
           }
         >
           {eur.format(Math.round(monthly))}
