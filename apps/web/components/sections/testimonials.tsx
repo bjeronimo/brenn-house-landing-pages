@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+
 type Testimonial = {
   quote: string
   name: string
@@ -39,6 +43,39 @@ export function Testimonials() {
 }
 
 function MobileLayout() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const container = scrollRef.current
+    const cards = cardRefs.current.filter(
+      (el): el is HTMLDivElement => el !== null
+    )
+    if (!container || cards.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (!mostVisible) return
+        const index = cards.indexOf(mostVisible.target as HTMLDivElement)
+        if (index !== -1) setActive(index)
+      },
+      { root: container, threshold: [0.5, 0.75, 1] }
+    )
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [])
+
+  const goTo = (index: number) => {
+    const container = scrollRef.current
+    const card = cardRefs.current[index]
+    if (!container || !card) return
+    container.scrollTo({ left: card.offsetLeft - 24, behavior: "smooth" })
+  }
+
   return (
     <div className="flex w-full flex-col gap-7 py-16 lg:hidden">
       <div className="flex flex-col gap-3 px-6">
@@ -59,14 +96,37 @@ function MobileLayout() {
         </p>
       </div>
 
-      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {testimonials.map((testimonial) => (
+      <div
+        ref={scrollRef}
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {testimonials.map((testimonial, i) => (
           <div
             key={testimonial.name}
+            ref={(el) => {
+              cardRefs.current[i] = el
+            }}
             className="w-[calc(100vw-72px)] max-w-[360px] shrink-0 snap-start"
           >
             <TestimonialCard testimonial={testimonial} compact />
           </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-2 py-1">
+        {testimonials.map((testimonial, i) => (
+          <button
+            key={testimonial.name}
+            type="button"
+            aria-label={`Ir para depoimento ${i + 1} de ${testimonials.length}`}
+            aria-current={i === active}
+            onClick={() => goTo(i)}
+            className={
+              i === active
+                ? "h-2 w-6 rounded-full bg-navy-700 transition-all"
+                : "size-2 rounded-full bg-cream-300 transition-all"
+            }
+          />
         ))}
       </div>
 
