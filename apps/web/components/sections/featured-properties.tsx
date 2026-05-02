@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+
 type Property = {
   price: string
   type: string
@@ -68,6 +72,39 @@ export function FeaturedProperties() {
 
 function MobileLayout() {
   const visible = properties.slice(0, 3)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const container = scrollRef.current
+    const cards = cardRefs.current.filter(
+      (el): el is HTMLDivElement => el !== null
+    )
+    if (!container || cards.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (!mostVisible) return
+        const index = cards.indexOf(mostVisible.target as HTMLDivElement)
+        if (index !== -1) setActive(index)
+      },
+      { root: container, threshold: [0.5, 0.75, 1] }
+    )
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [])
+
+  const goTo = (index: number) => {
+    const container = scrollRef.current
+    const card = cardRefs.current[index]
+    if (!container || !card) return
+    container.scrollTo({ left: card.offsetLeft - 24, behavior: "smooth" })
+  }
+
   return (
     <div className="flex w-full flex-col gap-7 py-14 lg:hidden">
       <div className="flex flex-col gap-3 px-6">
@@ -86,21 +123,38 @@ function MobileLayout() {
         </p>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto px-6 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {visible.map((property) => (
-          <PropertyCard
+      <div
+        ref={scrollRef}
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-6 px-6 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {visible.map((property, i) => (
+          <div
             key={property.title}
-            property={property}
-            className="w-[335px] shrink-0"
-            imageHeight="h-[220px]"
-          />
+            ref={(el) => {
+              cardRefs.current[i] = el
+            }}
+            className="w-[calc(100vw-72px)] max-w-[335px] shrink-0 snap-start"
+          >
+            <PropertyCard property={property} imageHeight="h-[220px]" />
+          </div>
         ))}
       </div>
 
       <div className="flex items-center justify-center gap-2 py-2">
-        <span aria-hidden className="h-2 w-6 rounded-full bg-navy-700" />
-        <span aria-hidden className="size-2 rounded-full bg-cream-300" />
-        <span aria-hidden className="size-2 rounded-full bg-cream-300" />
+        {visible.map((property, i) => (
+          <button
+            key={property.title}
+            type="button"
+            aria-label={`Ir para imóvel ${i + 1} de ${visible.length}`}
+            aria-current={i === active}
+            onClick={() => goTo(i)}
+            className={
+              i === active
+                ? "h-2 w-6 rounded-full bg-navy-700 transition-all"
+                : "size-2 rounded-full bg-cream-300 transition-all"
+            }
+          />
+        ))}
       </div>
 
       <div className="flex items-center justify-center px-6 py-3">
@@ -183,7 +237,7 @@ function PropertyCard({
 }) {
   return (
     <article
-      className={`flex flex-col overflow-hidden rounded-2xl border border-cream-300 bg-white ${className ?? ""}`}
+      className={`flex w-full flex-col overflow-hidden rounded-2xl border border-cream-300 bg-white ${className ?? ""}`}
     >
       <div
         className={`relative w-full ${imageHeight}`}
